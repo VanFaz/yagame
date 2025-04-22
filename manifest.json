@@ -1,0 +1,15 @@
+{
+    "lang": "ru",
+    "name": "Тралалеро тралала кликер: Итальянские мемы",
+    "orientation": "portrait",
+    "icons": {
+      "512": "assets/icon_512.jpg",
+      "192": "assets/icon_192.jpg"
+    },
+    "start_page": "index.html",
+    "fullscreen": true,
+    "mobile": true,
+    "sdk_version": 2,
+    "features": ["save", "payments"]
+  }
+  

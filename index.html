@@ -1,0 +1,153 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Кликер Italian brainrot</title>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+  <div class="container" id="gameContainer">
+    <h1 id="charName">Tralalero</h1>
+    <img id="charImage" src="assets/imgs/0_tralalero.png" alt="Персонаж" class="character" />
+    <p>Клики: <span id="clicks">0</span></p>
+    <button id="clickBtn">Клик!</button>
+    <p>Цена перехода: <span id="nextCost">50</span></p>
+    <button id="nextBtn">Следующий персонаж</button>
+    <p>Улучшение кликов: <span id="upgradeCost">100</span></p>
+    <button id="upgradeBtn">Улучшить клик</button>
+    <p>Автокликер: <span id="autoclickCost">500</span></p>
+    <button id="autoclickBtn">Купить автокликер</button>
+  </div>
+
+  <script>
+    const characters = [
+      { name: "Фриго камелло", image: "assets/imgs/0_frigo camello.jpeg", sound: "assets/sounds/0_frigo camello.mp3" },
+      { name: "Бонека амбалабу", image: "assets/imgs/1_Boneca ambalabu.jpeg", sound: "assets/sounds/1_Boneca ambalabu.mp3" },
+      { name: "Капибарелло кокоссини", image: "assets/imgs/2_Capibarello cocossini.jpeg", sound: "assets/sounds/2_Capibarello cocossini.mp3" },
+      { name: "Триппи троппи", image: "assets/imgs/3_trippi troppi.jpeg", sound: "assets/sounds/3_trippi troppi3" },
+      { name: "Бомбардиро крокодило", image: "assets/imgs/4_Bombardiro Crocodilo.jpeg", sound: "assets/sounds/4_Bombardiro Crocodilo.mp3" },
+      { name: "Лирили ларила", image: "assets/imgs/5_Lirililarila.webp", sound: "assets/sounds/5_Lirililarila.mp3" },
+      { name: "Тунг Тунг Тунг Сахур", image: "assets/imgs/6_Tung Tung Tung Sahur.webp", sound: "assets/sounds/6_Tung Tung Tung Sahur.mp3" },
+      { name: "Баллерина каппучина", image: "assets/imgs/7_ballerina cappuchina.jpeg", sound: "assets/sounds/7_ballerina cappuchina.mp3" },
+      { name: "Тралалеро Тралала", image: "assets/imgs/8_Trallalero Trallala.jpeg", sound: "assets/sounds/8_Trallalero Trallala.mp3" },
+      { name: "Боберито Бондито", image: "assets/imgs/9_Boberito bondito.webp", sound: "assets/sounds/9_Boberito bondito.mp3" }
+    ];
+
+    let clicks = 0;
+    let clickPower = 1;
+    let upgradeCost = 100;
+    let autoclickCost = 500;
+    let currentCharacter = 0;
+    let nextCharacterCost = 50;
+    let hasAutoclick = false;
+
+    const clickSpan = document.getElementById("clicks");
+    const charImage = document.getElementById("charImage");
+    const charName = document.getElementById("charName");
+    const nextCost = document.getElementById("nextCost");
+    const upgradeDisplay = document.getElementById("upgradeCost");
+    const autoclickDisplay = document.getElementById("autoclickCost");
+    const gameContainer = document.getElementById("gameContainer");
+
+    function updateUI() {
+      clickSpan.textContent = clicks;
+      charImage.src = characters[currentCharacter].image;
+      charName.textContent = characters[currentCharacter].name;
+      nextCost.textContent = currentCharacter < characters.length - 1 ? nextCharacterCost : "-";
+      upgradeDisplay.textContent = upgradeCost;
+      autoclickDisplay.textContent = autoclickCost;
+    }
+
+    function saveProgress() {
+      localStorage.setItem("clicker_save", JSON.stringify({
+        clicks,
+        clickPower,
+        upgradeCost,
+        autoclickCost,
+        currentCharacter,
+        nextCharacterCost,
+        hasAutoclick
+      }));
+    }
+
+    function loadProgress() {
+      const data = JSON.parse(localStorage.getItem("clicker_save"));
+      if (data) {
+        ({ clicks, clickPower, upgradeCost, autoclickCost, currentCharacter, nextCharacterCost, hasAutoclick } = data);
+        if (hasAutoclick) startAutoclick();
+        updateUI();
+      }
+    }
+
+    function playSound(index) {
+      const audio = new Audio(characters[index].sound);
+      audio.play();
+    }
+
+    function checkEndGame() {
+      if (currentCharacter === characters.length - 1) {
+        const lastCharClicks = 1000;
+        if (clicks >= lastCharClicks) {
+          const winSound = new Audio("assets/sounds/sound_win.mp3");
+          winSound.play();
+          gameContainer.innerHTML = `
+            <h1>🎉 Победа! 🎉</h1>
+            <p>Ты прошёл путь итальянских мемов теперь ты легенда!</p>
+            <p>Спасибо за игру 😄</p>
+          `;
+        }
+      }
+    }
+
+    document.getElementById("clickBtn").onclick = () => {
+      clicks += clickPower;
+      updateUI();
+      saveProgress();
+      checkEndGame();
+    };
+
+    document.getElementById("nextBtn").onclick = () => {
+      if (clicks >= nextCharacterCost && currentCharacter < characters.length - 1) {
+        clicks -= nextCharacterCost;
+        currentCharacter++;
+        nextCharacterCost = Math.floor(nextCharacterCost * 2);
+        updateUI();
+        saveProgress();
+        playSound(currentCharacter);
+      }
+    };
+
+    document.getElementById("upgradeBtn").onclick = () => {
+      if (clicks >= upgradeCost) {
+        clicks -= upgradeCost;
+        clickPower *= 2;
+        upgradeCost = Math.floor(upgradeCost * 2);
+        updateUI();
+        saveProgress();
+      }
+    };
+
+    document.getElementById("autoclickBtn").onclick = () => {
+      if (!hasAutoclick && clicks >= autoclickCost) {
+        clicks -= autoclickCost;
+        hasAutoclick = true;
+        updateUI();
+        saveProgress();
+        startAutoclick();
+      }
+    };
+
+    function startAutoclick() {
+      setInterval(() => {
+        clicks += clickPower;
+        updateUI();
+        saveProgress();
+        checkEndGame();
+      }, 1000);
+    }
+
+    loadProgress();
+  </script>
+</body>
+</html>
