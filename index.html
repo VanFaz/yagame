@@ -9,7 +9,7 @@
 <body>
   <div class="container" id="gameContainer">
     <h1 id="charName">Tralalero</h1>
-    <img id="charImage" src="assets/imgs/0_tralalero.png" alt="Персонаж" class="character" />
+    <img id="charImage" src="/imgs/0_tralalero.png" alt="Персонаж" class="character" />
     <p>Клики: <span id="clicks">0</span></p>
     <button id="clickBtn">Клик!</button>
     <p>Цена перехода: <span id="nextCost">50</span></p>
@@ -22,16 +22,16 @@
 
   <script>
     const characters = [
-      { name: "Фриго камелло", image: "assets/imgs/0_frigo camello.jpeg", sound: "assets/sounds/0_frigo camello.mp3" },
-      { name: "Бонека амбалабу", image: "assets/imgs/1_Boneca ambalabu.jpeg", sound: "assets/sounds/1_Boneca ambalabu.mp3" },
-      { name: "Капибарелло кокоссини", image: "assets/imgs/2_Capibarello cocossini.jpeg", sound: "assets/sounds/2_Capibarello cocossini.mp3" },
-      { name: "Триппи троппи", image: "assets/imgs/3_trippi troppi.jpeg", sound: "assets/sounds/3_trippi troppi3" },
-      { name: "Бомбардиро крокодило", image: "assets/imgs/4_Bombardiro Crocodilo.jpeg", sound: "assets/sounds/4_Bombardiro Crocodilo.mp3" },
-      { name: "Лирили ларила", image: "assets/imgs/5_Lirililarila.webp", sound: "assets/sounds/5_Lirililarila.mp3" },
-      { name: "Тунг Тунг Тунг Сахур", image: "assets/imgs/6_Tung Tung Tung Sahur.webp", sound: "assets/sounds/6_Tung Tung Tung Sahur.mp3" },
-      { name: "Баллерина каппучина", image: "assets/imgs/7_ballerina cappuchina.jpeg", sound: "assets/sounds/7_ballerina cappuchina.mp3" },
-      { name: "Тралалеро Тралала", image: "assets/imgs/8_Trallalero Trallala.jpeg", sound: "assets/sounds/8_Trallalero Trallala.mp3" },
-      { name: "Боберито Бондито", image: "assets/imgs/9_Boberito bondito.webp", sound: "assets/sounds/9_Boberito bondito.mp3" }
+      { name: "Фриго камелло", image: "/imgs/0_frigo camello.jpeg", sound: "/sounds/0_frigo camello.mp3" },
+      { name: "Бонека амбалабу", image: "/imgs/1_Boneca ambalabu.jpeg", sound: "/sounds/1_Boneca ambalabu.mp3" },
+      { name: "Капибарелло кокоссини", image: "/imgs/2_Capibarello cocossini.jpeg", sound: "/sounds/2_Capibarello cocossini.mp3" },
+      { name: "Триппи троппи", image: "/imgs/3_trippi troppi.jpeg", sound: "/sounds/3_trippi troppi3" },
+      { name: "Бомбардиро крокодило", image: "/imgs/4_Bombardiro Crocodilo.jpeg", sound: "/sounds/4_Bombardiro Crocodilo.mp3" },
+      { name: "Лирили ларила", image: "/imgs/5_Lirililarila.webp", sound: "/sounds/5_Lirililarila.mp3" },
+      { name: "Тунг Тунг Тунг Сахур", image: "/imgs/6_Tung Tung Tung Sahur.webp", sound: "/sounds/6_Tung Tung Tung Sahur.mp3" },
+      { name: "Баллерина каппучина", image: "/imgs/7_ballerina cappuchina.jpeg", sound: "/sounds/7_ballerina cappuchina.mp3" },
+      { name: "Тралалеро Тралала", image: "/imgs/8_Trallalero Trallala.jpeg", sound: "/sounds/8_Trallalero Trallala.mp3" },
+      { name: "Боберито Бондито", image: "/imgs/9_Boberito bondito.webp", sound: "/sounds/9_Boberito bondito.mp3" }
     ];
 
     let clicks = 0;
@@ -89,7 +89,7 @@
       if (currentCharacter === characters.length - 1) {
         const lastCharClicks = 1000;
         if (clicks >= lastCharClicks) {
-          const winSound = new Audio("assets/sounds/sound_win.mp3");
+          const winSound = new Audio("/sounds/sound_win.mp3");
           winSound.play();
           gameContainer.innerHTML = `
             <h1>🎉 Победа! 🎉</h1>
